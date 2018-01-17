@@ -1,17 +1,31 @@
 {
   "name": "v-m-layer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "a vue mobile layer",
   "author": "yellowstar",
-  "private": true,
+  "private": false,
+  "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yellowSTA/v-m-layer.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "v-m-layer",
+    "vue",
+    "layer",
+    "components",
+    "component"
+  ],
   "dependencies": {
     "better-scroll": "^1.8.0",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

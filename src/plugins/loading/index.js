@@ -1,4 +1,4 @@
-import LoadingComponent from '@/components/loading/loading'
+import LoadingComponent from '../../components/loading/loading'
 import { mergeOptions } from '../helper'
 
 let $vm;

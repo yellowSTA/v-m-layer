@@ -1,11 +1,11 @@
-import toast from './toast.vue';
-import alert from './alert.vue';
-import confirm from './confirm.vue';
-import toptip from './toptip.vue';
-import loading from './loading.vue';
-import actions from './actions.vue';
-import picker from './picker.vue';
-import cityPicker from './cityPicker.vue';
+import toast from './toast/toast.vue';
+import alert from './alert/alert.vue';
+import confirm from './confirm/confirm.vue';
+import toptip from './toptip/toptip.vue';
+import loading from './loading/loading.vue';
+import actions from './actions/actions.vue';
+import picker from './picker/picker.vue';
+import cityPicker from './cityPicker/cityPicker.vue';
 
 export {
     toast,

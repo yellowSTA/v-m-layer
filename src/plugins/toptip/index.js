@@ -1,4 +1,4 @@
-import ToptipComponent from '@/components/toptip/toptip'
+import ToptipComponent from '../../components/toptip/toptip'
 import { mergeOptions } from '../helper'
 
 let $vm;

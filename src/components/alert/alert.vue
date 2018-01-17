@@ -71,6 +71,7 @@ export default {
 </script>
 
 <style scoped>
+@import '../../assets/css/layer.css';
 .modal-enter{
     opacity: 0;
     transform: scale(1.185);
