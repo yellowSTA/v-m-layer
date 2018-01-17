@@ -1,4 +1,4 @@
-import AlertComponent from '@/components/alert'
+import AlertComponent from '@/components/alert/alert'
 import { mergeOptions } from '../helper'
 
 let $vm;

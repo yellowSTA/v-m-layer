@@ -48,14 +48,15 @@ export default {
             type: Boolean,
             default: false
         },
-        defaultValue: Array
+        defaultValue: ''
     },
     data() {
         return {
             show: false,
             wheels: [],
             pickerSelect: [], //选择的值
-            selectIndex: [0,0,0] //记录input中的值在picker中的位置
+            selectIndex: [0,0,0], //记录input中的值在picker中的位置
+            pickerDefaultValue:[]
         }
     },
     created() {
@@ -67,10 +68,12 @@ export default {
     methods: {
         _initData() {
             if(this.defaultValue){
-                let len = this.defaultValue.length <= this.data.length ? this.defaultValue.length : this.data.length
+                this.pickerDefaultValue = this.defaultValue.split(' ');
+
+                let len = this.pickerDefaultValue.length <= this.data.length ? this.pickerDefaultValue.length : this.data.length
                 for(let i=0; i<len; i++){
                     for(let j=0; j<this.data[i].length; j++){
-                        if(this.data[i][j] == this.defaultValue[i] || this.data[i][j].name == this.defaultValue[i]){
+                        if(this.data[i][j] == this.pickerDefaultValue[i] || this.data[i][j].name == this.pickerDefaultValue[i]){
                             this.pickerSelect[i] = this.data[i][j];
                             this.selectIndex[i] = j;
                         } else{
@@ -99,9 +102,15 @@ export default {
 
                     this.wheels[i].on("scrollEnd",function(pos){
                         let index = _this.wheels[i].getSelectedIndex();
+                        let values = [];
 
                         _this.pickerSelect[i] = _this.data[i][index];
-                        _this.$emit('on-change',_this.pickerSelect)
+
+                        for (let j = 0; j < _this.pickerSelect.length; j++) {
+                            const element = _this.pickerSelect[j];
+                            values.push(element.name)
+                        }
+                        _this.$emit('on-change',values,_this.pickerSelect)
                     })
                 }
             })

@@ -54,9 +54,11 @@ export default {
         show(val) {
             if(val){
                 setTimeout(() => {
-                    let dom = document.getElementsByClassName("m-confirm")[0];
-                    let h = dom.clientHeight;
-                    dom.style.marginTop = -h/2 + 'px';
+                    let dom = document.getElementsByClassName("m-confirm");
+                    for (let i = 0; i < dom.length; i++) {
+                        let h = dom[i].clientHeight;
+                        dom[i].style.marginTop = -h/2 + 'px';
+                    }
                 },10)
             }
             this.$emit('input',val)

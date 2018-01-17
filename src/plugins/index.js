@@ -1,13 +1,13 @@
-import Toast from './toast'
-import Alert from './alert'
-import Confirm from './confirm'
-import Toptip from './toptip'
-import Loading from './loading'
+import ToastPlugins from './toast'
+import AlertPlugins from './alert'
+import ConfirmPlugins from './confirm'
+import ToptipPlugins from './toptip'
+import LoadingPlugins from './loading'
 
 export {
-    Toast,
-    Alert,
-    Confirm,
-    Toptip,
-    Loading
+    ToastPlugins,
+    AlertPlugins,
+    ConfirmPlugins,
+    ToptipPlugins,
+    LoadingPlugins
 }

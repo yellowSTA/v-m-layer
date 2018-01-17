@@ -1,4 +1,4 @@
-import LoadingComponent from '@/components/loading'
+import LoadingComponent from '@/components/loading/loading'
 import { mergeOptions } from '../helper'
 
 let $vm;
@@ -14,15 +14,20 @@ const plugins = {
             document.body.appendChild($vm.$el)
         }
 
-        const loading = function(text, time){
-            let opt = {
-                text,
-                time: time || 2000
+        const loading = {
+            show(text, time){
+                let opt = {
+                    text,
+                    time: time
+                }
+    
+                mergeOptions($vm,opt)
+    
+                $vm.show = true;
+            },
+            hide() {
+                $vm.show = false;
             }
-
-            mergeOptions($vm,opt)
-
-            $vm.show = true;
         }
 
         if(!vue.$layer){

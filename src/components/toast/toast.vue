@@ -37,9 +37,11 @@ export default {
             if(val){
                 this.$emit('input', true)
                 setTimeout(() => {
-                    let dom = document.getElementsByClassName("m-toast")[0];
-                    let w = dom.clientWidth;
-                    dom.style.marginLeft = -w/2 + 'px';
+                    let dom = document.getElementsByClassName("m-toast");
+                    for (let i = 0; i < dom.length; i++) {
+                        let w = dom[i].clientWidth;
+                        dom[i].style.marginLeft = -w/2 + 'px';
+                    }
                 },10)
                 
                 setTimeout(() => {

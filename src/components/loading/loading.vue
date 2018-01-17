@@ -13,10 +13,7 @@
 export default {
     props: {
         text: String,
-        time: {
-            type: Number,
-            default: 2000
-        },
+        time: Number,
         value: {
             type: Boolean,
             default: false
@@ -37,12 +34,15 @@ export default {
             this.show = val
         },
         show(val){
+            // this.$emit('input',val);
             if(val){
                 this.$emit('input',true);
-                setTimeout(() => {
-                    this.$emit('input',false);
-                    this.show = false;
-                },this.time)
+                if(this.time){
+                    setTimeout(() => {
+                        this.$emit('input',false);
+                        this.show = false;
+                    },this.time)
+                }
             }
         }
     }

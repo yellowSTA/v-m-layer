@@ -1,4 +1,4 @@
-import ConfirmComponent from '@/components/confirm'
+import ConfirmComponent from '@/components/confirm/confirm'
 import { mergeOptions } from '../helper'
 
 let $vm;

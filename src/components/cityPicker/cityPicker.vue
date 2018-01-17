@@ -51,7 +51,7 @@ export default {
             type: Boolean,
             default: false
         },
-        defaultValue: Array
+        defaultValue: ''
     },
     data() {
         return {
@@ -62,7 +62,8 @@ export default {
             areasArray:['province','cities','areas'],
             province: [],
             cities: [],
-            areas: []
+            areas: [],
+            pickerDefaultvalue:[]
         }
     },
     created() {
@@ -88,7 +89,12 @@ export default {
                 this.wheels[0].wheelTo(0);
                 this.renderChain(0);
 
-                if(this.defaultValue.length){
+                if(this.defaultValue){
+                    if(typeof this.defaultValue == "string"){
+                        this.pickerDefaultvalue = this.defaultValue.split(' ')
+                    } else if(typeof this.defaultValue == "Array"){
+                        this.pickerDefaultvalue = this.defaultValue
+                    }   
                     this.setValue()
                 } 
             })
@@ -156,7 +162,7 @@ export default {
             }
 
             for (let i = 0; i < element.length; i++) {
-                if(element[i].name == _this.defaultValue[index]){
+                if(element[i].name == _this.pickerDefaultvalue[index]){
                     _this.$nextTick(() => {
                         _this.wheels[index].wheelTo(i)
                         _this.renderChain(index)

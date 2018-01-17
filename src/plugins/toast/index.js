@@ -1,4 +1,4 @@
-import ToastComponent from '@/components/toast'
+import ToastComponent from '@/components/toast/toast'
 import { mergeOptions } from '../helper'
 
 let $vm;
