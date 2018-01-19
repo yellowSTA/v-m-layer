@@ -1,12 +1,12 @@
 # v-m-layer screenshot
-![alert.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/alert.png)
-![confirm.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/confirm.png)
-![loading.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/loading.png)
-![toast.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/toast.png)
-![toptip.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/toptip.png)
-![actions.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/actions.png)
-![picker.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/picker.png)
-![cityPicker.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshots/cityPicker.png)
+![alert.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/alert.png)
+![confirm.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/confirm.png)
+![loading.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/loading.png)
+![toast.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/toast.png)
+![toptip.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/toptip.png)
+![actions.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/actions.png)
+![picker.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/picker.png)
+![cityPicker.png](https://github.com/yellowSTA/v-m-layer/raw/master/screenshot/cityPicker.png)
 
 # v-m-layer
 
