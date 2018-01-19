@@ -11,6 +11,7 @@ import ToastPlugins from './src/plugins/toast'
 import ConfirmPlugins from './src/plugins/confirm'
 import ToptipPlugins from './src/plugins/toptip'
 import LoadingPlugins from './src/plugins/loading'
+import chinaAddress from './src/datas/address.json'
 
 export {
     toast,
@@ -25,5 +26,6 @@ export {
     ToastPlugins,
     ConfirmPlugins,
     ToptipPlugins,
-    LoadingPlugins
+    LoadingPlugins,
+    chinaAddress
 }
