@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <div style="margin-top:40px" @click="showactios">点击显示actions</div>
         <actions v-model="show" title="请选择语言" :menu="menu" @on-actions-menu="itemClick"></actions>
     </div>

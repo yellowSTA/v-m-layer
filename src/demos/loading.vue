@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <div style="margin-top:40px" @click="showloading">显示loading</div>
         <div style="margin-top:40px" @click="showloading2">插件调用loading</div>
 

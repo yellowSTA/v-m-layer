@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" />
         <picker v-model="show" :data="menu" :defaultValue="pickervalue" @on-change="select"></picker>
     </div>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <div @click="showAlert" style="margin-top:40px">点击显示弹窗</div>
         <div @click="showAlert2" style="margin-top:40px">插件形式调用弹窗</div>
         <alert v-model="show" :text="msg" title="提示1" @onOk="sure"></alert>

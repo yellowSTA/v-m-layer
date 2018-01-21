@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" />
         <cityPicker v-model="show" :data="chinaAddress" :defaultValue="pickervalue" title="请选择地区" @on-shadow-change="selct"></cityPicker>
     </div>

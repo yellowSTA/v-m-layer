@@ -1,15 +1,9 @@
 body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select{margin:0;padding:0} 
 body{width:100%;font-size:16px;font-family: "微软雅黑","microsoft yahei","microsoft sans serif";background: #ededed;color: #313131;overflow: hidden} 
-a,a:hover{text-decoration:none;color:inherit;} 
-em,i{font-style:normal} 
-li{list-style:none} 
-img{border:0;vertical-align:middle} 
-table{border-collapse:collapse;border-spacing:0} 
-p{word-wrap:break-word} 
-input,textarea{outline: none;font-family: "微软雅黑","microsoft yahei";}
 *{box-sizing: border-box;}
 
 /**************/
+.text-center{text-align: center}
 .modal{
 	position: fixed;
 	z-index: 11000;

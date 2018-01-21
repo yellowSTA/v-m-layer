@@ -20,10 +20,11 @@ export default {
 </script>
 
 <style scoped>
-a{display: block}
+a{display: block;color: black;text-decoration: none}
 .list{
     text-align: center;
     overflow: hidden;
+    list-style: none;
 }
 .list .item{
     float: left;

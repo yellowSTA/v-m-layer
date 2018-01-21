@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <div @click="showConfirm" style="margin-top:40px">点击显示confirm</div>
         <div @click="showConfirm2" style="margin-top:40px">插件形式调用confirm</div>
         <confirm v-model="show" :content="msg" title="提示1" @onConfirm="sure" @onCancel="cancel"></confirm>

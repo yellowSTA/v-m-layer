@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <div @click="showToast" style="margin-top:40px">点击显示toast</div>
         <div @click="showToast2" style="margin-top:40px">插件形式调用toast</div>
         <toast v-model="show" :text="msg" :time="1500"></toast>
