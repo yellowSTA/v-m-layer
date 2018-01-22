@@ -3,7 +3,7 @@
         <div style="margin-top:40px" @click="showloading">显示loading</div>
         <div style="margin-top:40px" @click="showloading2">插件调用loading</div>
 
-        <loading v-model="show">加载中...</loading>
+        <loading :show="show">加载中...</loading>
     </div>
 </template>
 

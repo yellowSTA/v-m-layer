@@ -79,7 +79,7 @@ export default {
 			
 			for(let i=0; i<len; i++){
 				if(this.data[i].parent){
-					break;
+					continue;
 				}
 				this.province.push(this.data[i])
             }

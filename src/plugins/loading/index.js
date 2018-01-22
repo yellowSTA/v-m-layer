@@ -15,10 +15,9 @@ const plugins = {
         }
 
         const loading = {
-            show(text, time){
+            show(text){
                 let opt = {
-                    text,
-                    time: time
+                    text
                 }
     
                 mergeOptions($vm,opt)

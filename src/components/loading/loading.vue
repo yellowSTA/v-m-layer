@@ -14,36 +14,14 @@ export default {
     props: {
         text: String,
         time: Number,
-        value: {
+        show: {
             type: Boolean,
             default: false
         }
     },
-    data() {
-        return {
-            show: false
-        }
-    },
-    created() {
-        if(this.value){
-            this.show = true
-        }
-    },
     watch: {
-        value(val){
-            this.show = val
-        },
-        show(val){
-            // this.$emit('input',val);
-            if(val){
-                this.$emit('input',true);
-                if(this.time){
-                    setTimeout(() => {
-                        this.$emit('input',false);
-                        this.show = false;
-                    },this.time)
-                }
-            }
+        show (val) {
+            this.$emit('update:show', val)
         }
     }
 }

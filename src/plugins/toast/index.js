@@ -25,7 +25,7 @@ const plugin = {
         const toast = function(text, time){
             let opt = {
                 text,
-                time
+                time: time || 2000
             }
             mergeOptions($vm, opt)
             $vm.show = true
