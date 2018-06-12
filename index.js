@@ -6,6 +6,7 @@ import loading from './src/components/loading/loading.vue';
 import actions from './src/components/actions/actions.vue';
 import picker from './src/components/picker/picker.vue';
 import cityPicker from './src/components/cityPicker/cityPicker.vue';
+import timePicker from './src/components/timePicker/timePicker.vue';
 import AlertPlugins from './src/plugins/alert'
 import ToastPlugins from './src/plugins/toast'
 import ConfirmPlugins from './src/plugins/confirm'
@@ -29,5 +30,6 @@ export {
     ToptipPlugins,
     LoadingPlugins,
     chinaAddress,
-    getNames
+    getNames,
+    timePicker
 }

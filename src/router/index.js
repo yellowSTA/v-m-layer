@@ -9,6 +9,7 @@ import actions from '@/demos/actions'
 import picker from '@/demos/picker'
 import cityPicker from '@/demos/cityPicker'
 import loading from '@/demos/loading'
+import timePicker from '@/demos/timePicker'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/loading',
       name: 'loading',
       component: loading
+    },
+    {
+        path: '/timePicker',
+        name: 'timePicker',
+        component: timePicker
     }
   ]
 })

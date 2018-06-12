@@ -9,6 +9,7 @@
             <li class="item"><router-link :to="{name:'actions'}">actions</router-link></li>
             <li class="item"><router-link :to="{name:'picker'}">picker</router-link></li>
             <li class="item"><router-link :to="{name:'cityPicker'}">cityPicker</router-link></li>
+            <li class="item"><router-link :to="{name:'timePicker'}">timePicker</router-link></li>
         </ul>
     </div>
 </template>

@@ -12,7 +12,7 @@
                     <div class="picker-content">
                         <div class="mask-top border-1px"></div>
                         <div class="wheel-wrapper">
-                            <div class="wheel" v-for="(wrapper, index) in cols" :key="index" ref="wheel">
+                            <div class="wheel" v-for="(wrapper, index) in cols" :key="index" ref="wheel" v-if="index<columns">
                                 <ul class="wheel-scroll">
                                     <li class="wheel-item" v-for="(item, i) in wrapper" :class="{active:i==selectIndex[index]}" :key="i">{{item.name || item}}</li>
                                 </ul>
@@ -30,35 +30,36 @@
 
 <script>
 import Bscroll from "better-scroll"
+
+const date = new Date();
+
 export default {
     props: {
         title: {
             type: String,
             default: ''
         },
-        data: {
-            type: Array,
-            default: function() {
-                return []
-            }
-        },
-        isLink: {
-            type: Boolean,
-            default: false
-        },
         defaultValue: {
             type: Array,
             default: () => {
-                return []
+                return [date.getFullYear(),date.getMonth()+1,date.getDate()]
             }
         },
         columns: {
             type: Number,
-            default: 1
+            default: 3
         },
         value: {
             type: Boolean,
             default: false
+        },
+        minYear: {
+            type: Number,
+            default: 1990
+        },
+        maxYear: {
+            type: Number,
+            default: new Date().getFullYear()
         }
     },
     data() {
@@ -74,32 +75,26 @@ export default {
     },
     created() {
         if(this.value){
-            this.show = true;
-            this.cols = data;
-        }
-        if(this.isLink) {
-            this.link = true;
+            this.show = true
         }
     },
     methods: {
         _initData() {
-            let defaultValue = this.defaultValue;
-            this.cols = this.data;
+            let defaultValue = this.defaultValue.map((value,index,arr) => {
+                return Number(value)
+            })
+            this._initTime()
+            let data = this.cols;
 
-            if(this.link) {
-                this.cols = [];
-                this._initLinkData();
-            } 
-
-            if(!defaultValue || !defaultValue instanceof Array || (!defaultValue.length)) {
+            if(!defaultValue || !defaultValue instanceof Array || !defaultValue.length) {
                 this.cols.forEach((el, index) => {
                     this.pickerSelect[index] = el[0];
                     this.selectIndex[index] = 0;
                 })
 
             } else{
-                let len = this.cols.length;
-                for(let i=0; i<len; i++) {
+                
+                for(let i=0; i<this.cols.length; i++) {
                     const element = this.cols[i];
                     element.forEach((el, index) => {
                         if(el == defaultValue[i] || (el.name == defaultValue[i].name && typeof el.name != 'undefined')) {
@@ -108,50 +103,36 @@ export default {
                         }
                     })
                 }
+                let days = new Date(data[0][this.selectIndex[0]],data[1][this.selectIndex[1]],0).getDate();
+                this.setDays(days)
             }
-            
             this._initScroll()
         },
-        //联动时初始化数据
-        _initLinkData() {
-            let defaultValue = this.defaultValue;
-            let first = [];
-            let colums = this.columns;
+        _initTime() {
+            const start = this.minYear;
+            const end = this.maxYear;
+            let len = end - start;
+            let years = [],
+                cols = [],
+                days = [];
+            let month = [1,2,3,4,5,6,7,8,9,10,11,12];
 
-            this.data.forEach((el, index, arr) => {
-                if(el.parent == "0") {
-                    first.push(el);
-                }
-            })
-            this.$set(this.cols,0,first)
-
-            //联动时必须指明columns(列数)
-            if(isNaN(colums) || !colums) {
-                console.error('[picker] 渲染出错，如果为联动模式，需要指定 columns(列数)')
-                return false;
+            for(let i=0; i<len; i++) {
+                years.push(end-i);
             }
-            //将列数据找出来
-            for(let i=1; i<colums; i++) {
-                let id = this.cols[i-1][0].value;
-                if(defaultValue instanceof Array && defaultValue.length) {
-                    id = defaultValue[i-1].value;
+
+            cols.push(years)
+            cols.push(month)
+            
+            if(this.columns == 3) {
+                for(let i=0; i<31; i++) {
+                    days.push(i+1)
                 }
-                
-                let child = this.getchildren(id)
-                this.$set(this.cols,i,child)
+
+                cols.push(days)
             }
             
-        },
-        //数据联动时，获取后面的子级数据
-        getchildren(id) {
-            let len = this.data.length;
-            let arr =[];
-            for(var i=0; i<len; i++){
-				if(this.data[i].parent == id){
-					arr.push(this.data[i])
-				}
-            }
-            return arr;
+            this.cols = cols;
         },
         //初始化滚动轴
         _initScroll() {
@@ -172,38 +153,33 @@ export default {
                         let values = [];
                         let data = _this.cols;
                         
-                        if(_this.link) {
-                            for(let j=i; j<wrapperLen; j++) {
-                                let n = (i == j) ? index : 0; //判断取值的滚动轴是当前还是后面的
-                                
-                                let next = _this.getchildren(_this.cols[j][n].value);
-                                if((j+1) < _this.columns) {
-                                    _this.$set(_this.cols,j+1,next)
-                                    _this.wheels[j+1].refresh();
-                                    _this.wheels[j+1].wheelTo(0);
-                                    _this.$set(_this.selectIndex,j+1,0)
-                                }
+                        for(let j=i; j<wrapperLen; j++) {
+                            if((j+1) < _this.columns) {
+                                _this.wheels[j+1].refresh();
+                                _this.wheels[j+1].wheelTo(0);
+                                _this.$set(_this.selectIndex,j+1,0)
                             }
-                            _this.getValue()
-                        } else{
-                            _this.pickerSelect[i] = data[i][index];
-                            for (let j = 0; j < _this.pickerSelect.length; j++) {
-                                const element = _this.pickerSelect[j];
-                                
-                                let v = (typeof element.name == "undefined") ? element : element.name;
-                                values.push(v)
+                            if(j < 2 && _this.columns == 3) {
+                                let days = new Date(data[0][_this.selectIndex[0]],data[1][_this.selectIndex[1]],0).getDate();
+                                _this.setDays(days)
                             }
-                            
-                            _this.$emit('on-change',values,_this.pickerSelect)
                         }
+                        _this.getValue()
                     })
                 }
             })
         },
-        //供联动时取值
+        setDays(n) {
+            
+            let arr = [];
+            for(let i=0; i<n; i++) {
+                arr.push(i+1)
+            } 
+            this.$set(this.cols,2,arr)
+        },
+        //取值
         getValue() {
             let data = [];
-            let ids = [];
             let values = [];
             this.$nextTick(() => {
 
@@ -213,8 +189,8 @@ export default {
                     let item = element.items[index]
                     
                     data.push(this.cols[i][index])
-                    ids.push(item.value);
-                    values.push(item.innerText);
+                    let v = (Number(item.innerText) <= 9) ? '0'+item.innerText : item.innerText;
+                    values.push(v);
                 }
                 this.pickerSelect = data;
                 this.$emit('on-change',values,data);
@@ -236,11 +212,12 @@ export default {
             if(!this._canConfirm()){
                 return false;
             }
-
+            
             let values = [];
             for(let i=0; i<this.pickerSelect.length; i++) {
                 const el = this.pickerSelect[i];
-                values.push(el.name || el)
+                let v = (Number(el) <= 9) ? '0'+el : el;
+                values.push(v);
             }
             this.$emit('on-selected',values,this.pickerSelect)
             this.closePicker()
@@ -253,7 +230,7 @@ export default {
         value(val) {
             this.show = val;
              
-            if(val){
+            if(val && !this.wheels.length){
                 this._initData();
             }
         }

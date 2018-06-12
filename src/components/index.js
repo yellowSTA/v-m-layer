@@ -6,6 +6,7 @@ import loading from './loading/loading.vue';
 import actions from './actions/actions.vue';
 import picker from './picker/picker.vue';
 import cityPicker from './cityPicker/cityPicker.vue';
+import timePicker from './timePicker/timePicker.vue';
 
 export {
     toast,
@@ -15,5 +16,6 @@ export {
     loading,
     actions,
     picker,
-    cityPicker
+    cityPicker,
+    timePicker
 }
