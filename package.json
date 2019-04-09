@@ -1,6 +1,6 @@
 {
   "name": "v-m-layer",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "a vue mobile layer",
   "author": "yellowstar",
   "private": false,
@@ -23,8 +23,8 @@
     "component"
   ],
   "dependencies": {
-    "better-scroll": "^1.8.0",
     "vue": "^2.5.2",
+    "better-scroll": "^1.8.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^3.1.11",
+    "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
