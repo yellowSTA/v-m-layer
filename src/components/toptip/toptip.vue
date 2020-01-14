@@ -2,7 +2,7 @@
     <div>
         <div class="modal-mask" v-show="show"></div>
         <transition name="toptip">
-            <div class="m-toptip" v-show="show" >
+            <div class="m-toptip" :class="[className]" v-show="show" >
                 <p v-if="content">{{content}}</p>
                 <p v-else><slot></slot></p>
             </div> 
@@ -14,14 +14,11 @@
 export default {
     props: {
         content: String,
-        value: {
-            type: Boolean,
-            default:false
-        },
         time: {
             type: Number,
             default: 2000
-        }
+        },
+        className: String
     },
     data() {
         return{
@@ -29,29 +26,25 @@ export default {
         }
     },
     created() {
-        if(this.value){
-            this.show = true
-        }
+        
     },
     watch: {
-        value(val) {
-            this.show = val
-        },
-        show(val) {
-            if(val){
-                this.$emit('input', true);
-
-                setTimeout(() => {
-                    this.$emit('input',false);
-                    this.show = false;
-                },this.time)
-            }
-        }
+        
     }
 }
 </script>
 
 <style scoped>
+.defaultTip {
+    background: #ef4437;
+    height: 34px;
+    line-height: 34px;
+}
+.defaultTip2 {
+    background: #1e9033;
+    height: 40px;
+    line-height: 40px;
+}
 .toptip-enter-active, .toptip-leave-active {
   transition: transform .3s;
 }

@@ -1,8 +1,8 @@
 <template>
     <div class="text-center">
         <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" />
-        <span @click="getText" style="margin-top:40px;display:block">根据id获取文字值</span>
-        <cityPicker v-model="show" :data="chinaAddress" :defaultValue="pickervalue" title="请选择地区" @on-shadow-change="selct"></cityPicker>
+        <span @click="getText" style="margin-top:40px;display:block">根据id['430000', '430400', '430407']获取文字值</span>
+        <cityPicker ref="picker" :data="chinaAddress" :defaultValue="pickervalue" title="请选择地区" @on-shadow-change="selct"></cityPicker>
     </div>
 </template>
 
@@ -14,14 +14,13 @@ import { getName } from '../plugins'
 export default {
     data() {
         return {
-            show: false,
             chinaAddress: chinaAddress,
             pickervalue:'湖北省 武汉市 武昌区',
         }
     },
     methods: {
         showpicker() {
-            this.show = true
+            this.$refs.picker.open()
         },
         selct(values, ids, data) {
             console.log(values)

@@ -14,30 +14,26 @@ const plugins = {
             document.body.appendChild($vm.$el)
         }
 
-        const toptip = function(content, time){
+        const toptip = function(content, time, className = 'defaultTip'){
             let opt = {
                 content,
-                time: time || 2000
+                time: time || 2000,
+                className
             }
 
             mergeOptions($vm, opt)
 
             $vm.show = true;
+            setTimeout(() => {
+                $vm.show = false;
+            }, opt.time);
         }
 
-        if(!vue.$layer){
-            vue.$layer = {
-                toptip
-            }
-        } else{
-            vue.$layer.toptip = toptip
+        let plugins = vue.prototype.$layer || {};
+        if(!plugins.toptip) {
+            plugins.toptip = toptip;
         }
-
-        vue.mixin({
-            created: function(){
-                this.$layer = vue.$layer;
-            }
-        })
+        vue.prototype.$layer = plugins;
     }
 }
 

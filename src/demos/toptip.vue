@@ -1,34 +1,28 @@
 <template>
     <div class="text-center">
         <div @click="showToptip" style="margin-top:40px">点击显示toptip</div>
-        <div @click="showToptip2" style="margin-top:40px">插件形式调用toptip</div>
-        <toptip v-model="show" :content="msg" :time="1500"></toptip>
+        <div @click="showToptip2" style="margin-top:40px">更换样式</div>
     </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import toptip from '../components/toptip/toptip'
 import { ToptipPlugins } from '../plugins'
 Vue.use(ToptipPlugins)
 
 export default{
     data() {
         return {
-            show: false,
-            msg: '我是通过组件调用的'
+           
         }
     },
     methods: {
         showToptip() {
-            this.show = true
+            this.$layer.toptip('我是通过插件调用的',3000)
         },
         showToptip2() {
-            this.$layer.toptip('我是通过插件调用的',3000)
+            this.$layer.toptip('我是通过插件调用的',2000, 'defaultTip2')
         }
-    },
-    components: {
-        toptip
     }
 }
 </script>

@@ -1,15 +1,17 @@
 <template>
     <div>
-        <transition name="overlay"><div class="modal-overlay"  v-show="show"></div></transition>
+        <transition name="overlay"><div class="modal-overlay" v-show="show"></div></transition>
         <transition name="modal">
-            <div class="modal m-alert" v-show="show">
-                <div class="modal-inner">
-                    <div class="modal-title">{{title}}</div>
-                    <div class="modal-text" v-if="text" v-html="text"></div>
-                    <div class="modal-text" v-else><slot></slot></div>
-                </div>
-                <div class="modal-buttons ">
-                    <span class="modal-button" @click="_onOk">确定</span>
+            <div class="modal-box" v-show="show">
+                <div class="modal m-alert">
+                    <div class="modal-inner">
+                        <div class="modal-title">{{title}}</div>
+                        <div class="modal-text" v-if="text" v-html="text"></div>
+                        <div class="modal-text" v-else><slot></slot></div>
+                    </div>
+                    <div class="modal-buttons ">
+                        <span class="modal-button" @click="_onOk">确定</span>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -23,11 +25,7 @@ export default {
             type: String,
             default: '提示'
         },
-        text: String,
-        value: {
-            type: Boolean,
-            default: false
-        }
+        text: String
     },
     data() {
         return {
@@ -35,43 +33,23 @@ export default {
         }
     },
     created() {
-        if(this.value){
-            this.show = true;
-        }
+        
     },
     methods: {
         _onOk() {
             this.show = false;
-            this.$emit('onOk')
         },
         _onCancle() {
             this.show = false;
-            this.$emit('onCancle')
         }
     },
     watch: {
-        show(val) {
-            if(val){
-                setTimeout(() => {
-                    let dom = document.getElementsByClassName("m-alert");
-                    for (let i = 0; i < dom.length; i++) {
-                        let h = dom[i].clientHeight;
-                        dom[i].style.marginTop = -h/2 + 'px';
-                    }
-                    
-                },10)
-            }
-            this.$emit('input', val)
-        },
-        value(val, oldVal) {
-            this.show = val
-        }
+        
     }
 }
 </script>
 
 <style scoped>
-@import '../../assets/css/layer.css';
 .modal-enter{
     opacity: 0;
     transform: scale(1.185);

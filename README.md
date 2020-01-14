@@ -26,13 +26,16 @@
 ``` bash
 npm install v-m-layer --save
 
-然后在APP.vue或者组件内 require('v-m-layer/dist/layer.css')
+然后在APP.vue或者组件内 import 'v-m-layer/src/assets/css/layer.css'
 ```
 
 ## 使用
 
 ### 1.alert
-+ 插件调用
+> ### this.$layer.alert( title, callback )  
+> ### title: 弹窗内容  
+> ### callback: 可选参数，点击确定回调函数
+
 ``` javascript
 
 import Vue from 'vue'
@@ -42,7 +45,6 @@ Vue.use(AlertPlugins)
 export default{
     methods: {
         showalert() {
-            //第一个参数是弹窗内容，第二个参数是点击确定的回调
             this.$layer.alert('sssss',function(){
                 console.log('你点击了确定')
             })
@@ -50,47 +52,14 @@ export default{
     }
 }
 ```
-+ 组件调用
-```html
-<template>
-    <div @click="showalert"></div>
-    <alert v-model="show" :text="msg" title="提示1" @onOk="sure"></alert>
-</template>
-
-<!--
-    v-model： 控制弹窗显示与隐藏
-    text： 弹窗内容
-    title：弹窗标题
-    onOk： 点击确定按钮执行的函数 
--->
-```
-```javascript
-import { alert } from 'v-m-layer'
-
-export default{
-    data() {
-        return{
-            show: false,
-            msg: 'hellow world'
-        }
-    },
-    mehtods: {
-        showalert() {
-            this.show = true
-        },
-        sure() {
-            console.log('你点击了确定')
-        }
-    },
-    components: {
-        alert
-    }
-}
-
-```
 
 ### 2.toast
 + 插件调用
+> ### this.$layer.toast( msg, delay, className )  
+> ### msg：提示信息  
+> ### delay：可选参数，弹框存在时间  
+> ### className：可选参数，设置样式名，改变默认样式
+
 ``` javascript
 
 import Vue from 'vue'
@@ -99,52 +68,15 @@ Vue.use(ToastPlugins)
 
 export default{
     methods: {
-        //第一个参数是弹出内容，第二个参数是显示的时间
         showToast2() {
-            this.$layer.toast('我是通过插件调用的',3000)
+            this.$layer.toast('我是通过插件调用的',3000, 'black')
         }
     }
 }
-```
-+ 组件调用
-```html
-<template>
-    <div>
-        <div @click="showToast" style="margin-top:40px">点击显示toast</div>
-        <toast v-model="show" :text="msg" :time="1500"></toast>
-    </div>
-</template>
-
-<!--
-    v-model： 控制弹窗显示与隐藏
-    text： 弹窗内容
-    time:  显示时间
--->
-```
-```javascript
-import { toast } from 'v-m-layer'
-
-export default{
-    data() {
-        return{
-            show: false,
-            msg: 'hellow world'
-        }
-    },
-    mehtods: {
-        showToast() {
-            this.show = true
-        }
-    },
-    components: {
-        toast
-    }
-}
-
 ```
 
 ### 3.confirm
-+ 插件调用
+
 ``` javascript
 
 import Vue from 'vue'
@@ -172,54 +104,11 @@ export default{
     }
 }
 ```
-+ 组件调用
-```html
-<template>
-    <div>
-        <div @click="showConfirm" style="margin-top:40px">点击显示confirm</div>
-        <confirm v-model="show" :content="msg" title="提示1" @onConfirm="sure" @onCancel="cancel"></confirm>
-    </div>
-</template>
-
-<!--
-    v-model： 控制弹窗显示与隐藏
-    content： 弹窗内容
-    time:  显示时间
-    title： 弹窗标题
-    onConfirm： 点击确定按钮回调
-    onCancel： 点击取消按钮回调
--->
-```
-```javascript
-import { confirm } from 'v-m-layer'
-
-export default{
-    data() {
-        return{
-            show: false,
-            msg: 'hellow world'
-        }
-    },
-    mehtods: {
-        showConfirm() {
-            this.show = true
-        },
-        sure() {
-            console.log('你点击了确定')
-        },
-        cancel() {
-            console.log('你点击了取消')
-        }
-    },
-    components: {
-        confirm
-    }
-}
-
-```
 
 ### 4.loading
-+ 插件调用
+> ### this.$layer.loading.show()
+> ### this.$layer.loading.hide()
+
 ``` javascript
 
 import Vue from 'vue'
@@ -240,47 +129,6 @@ export default{
     }
 }
 ```
-+ 组件调用
-```html
-<template>
-    <div>
-        <div style="margin-top:40px" @click="showloading">显示loading</div>
-
-        <loading :show="show">加载中...</loading>
-    </div>
-</template>
-
-<!--
-    show： 控制弹窗显示与隐藏
--->
-```
-```javascript
-import { loading } from 'v-m-layer'
-
-export default{
-    data() {
-        return{
-            show: false,
-            msg: 'hellow world'
-        }
-    },
-    mehtods: {
-        showloading() {
-            this.show = true
-            /* setTimeout(() => {
-                this.show = false 
-            }, 3000); */
-        },
-        hideloading() {
-            this.show = false
-        }
-    },
-    components: {
-        loading
-    }
-}
-
-```
 
 ### 5.toptip
 + 插件调用
@@ -293,48 +141,11 @@ Vue.use(ToptipPlugins)
 export default{
     methods: {
         showToptip2() {
-            //1.内容  2.显示时间
+            //1.内容  2.显示时间 默认 2000毫秒
             this.$layer.toptip('我是通过插件调用的',3000)
         }
     }
 }
-```
-+ 组件调用
-```html
-<template>
-    <div>
-        <div style="margin-top:40px" @click="showToptip">显示showToptip</div>
-
-        <toptip v-model="show" :content="msg" :time="1500"></toptip>
-    </div>
-</template>
-
-<!--
-    v-model： 控制弹窗显示与隐藏
-    content： 内容
-    time： 显示时间
--->
-```
-```javascript
-import { toptip } from 'v-m-layer'
-
-export default{
-    data() {
-        return{
-            show: false,
-            msg: 'hellow world'
-        }
-    },
-    mehtods: {
-        showToptip() {
-            this.show = true
-        }
-    },
-    components: {
-        toptip
-    }
-}
-
 ```
 
 ### 6.actions
@@ -342,12 +153,19 @@ export default{
 <template>
     <div>
         <div style="margin-top:40px" @click="showactions">点击显示actions</div>
-        <actions v-model="show" title="请选择语言" :menu="menu" @on-actions-menu="itemClick"></actions>
+        <actions 
+            ref="actions"
+            title="请选择语言" 
+            :menu="menu" 
+            @on-actions-menu="itemClick"
+            @on-actions-close="onClose">
+        </actions>
     </div>
     <!--
-        v-model： 控制弹窗显示与隐藏
+        this.$refs.actions.open()
         menu: actions菜单
         on-actions-menu： 点击菜单的回调
+        on-actions-close: 监听关闭回调
         title： 标题
     -->
 </template>
@@ -367,7 +185,8 @@ export default {
     },
     methods: {
         showactions() {
-            this.show = true;
+            this.$refs.actions.open();
+            //this.$refs.actions.close()
         },
         //item: 当前点击菜单对应的menu数据; index: 当前点击的序号
         itemClick(item, index) {
@@ -385,15 +204,56 @@ export default {
 ```html
 <template>
     <div>
-        <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" placeholder="非联动" />
-        <input type="text" style="margin-top:40px" v-model="pickervalue2" readonly @click="show2 = true" placeholder="单列数据" />
-        <input type="text" style="margin-top:40px" v-model="pickervalue3" readonly @click="show3 = true" placeholder="数据联动" />
-        <picker v-model="show" :data="menu" :defaultValue="defaultValue" @on-selected="select"></picker>
-        <picker v-model="show2" :data="menu2" :defaultValue="defaultValue2" @on-selected="select2" title="选择手机"></picker>
-        <picker v-model="show3" :data="menu3" :isLink="true" :columns="2" :defaultValue="defaultValue3" @on-selected="select3" title="选择地区"></picker>
+        <input 
+            type="text" 
+            style="margin-top:40px" 
+            v-model="pickervalue" 
+            readonly 
+            @click="showpicker" 
+            placeholder="非联动" />
+
+        <input 
+            type="text" 
+            style="margin-top:40px" 
+            v-model="pickervalue2" 
+            readonly 
+            @click="$refs.picker2.open()" 
+            placeholder="单列数据" />
+
+        <input 
+            type="text" 
+            style="margin-top:40px" 
+            v-model="pickervalue3" 
+            readonly 
+            @click="$refs.picker3.open()" 
+            placeholder="数据联动" />
+
+        <picker 
+            ref="picker1" 
+            :data="menu" 
+            :defaultValue="defaultValue" 
+            @on-selected="select">
+        </picker>
+
+        <picker 
+            ref="picker2" 
+            :data="menu2" 
+            :defaultValue="defaultValue2" 
+            @on-selected="select2" 
+            title="选择手机">
+        </picker>
+
+        <picker 
+            ref="picker3" 
+            :data="menu3" 
+            :isLink="true" 
+            :columns="2" 
+            :defaultValue="defaultValue3" 
+            @on-selected="select3" 
+            title="选择地区">
+        </picker>
     </div>
     <!--
-        v-model: 控制弹窗显示隐藏
         data：picker数据
         defaultValue：给picker的赋默认值
         on-change：picker滚动就执行回调
@@ -441,7 +301,7 @@ export default {
     },
     methods: {
         showpicker() {
-            this.show = true;
+            this.$refs.picker1.open();
         },
         select(values, item) {
             console.log(values,item)
@@ -471,12 +331,28 @@ export default {
 ```html
 <template>
     <div>
-        <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" />
-        <span @click="getText" style="margin-top:40px;display:block">根据id获取文字值</span>
-        <cityPicker v-model="show" :data="chinaAddress" :defaultValue="pickervalue" title="请选择地区" @on-shadow-change="selct"></cityPicker>
+        <input 
+            type="text" 
+            style="margin-top:40px" 
+            v-model="pickervalue" 
+            readonly 
+            @click="showpicker" />
+
+        <span 
+            @click="getText" 
+            style="margin-top:40px;display:block">
+            根据id获取文字值
+        </span>
+
+        <cityPicker 
+            ref="picker 
+            :data="chinaAddress" 
+            :defaultValue="pickervalue" 
+            title="请选择地区" 
+            @on-shadow-change="selct">
+        </cityPicker>
     </div>
     <!--
-        v-model: 控制弹窗显示隐藏
         data：省市区列表；v-m-layer提供了chinaAddress，如果需要使用自己的地址库，请遵循chinaAddress的格式
         on-shadow-change: 用户选中执行回调，
         请保持input绑定的值和cityPicker组件的defaultValue的值一致，这样就可以使picker记住用户选中的值
@@ -496,7 +372,7 @@ export default {
     },
     methods: {
         showpicker() {
-            this.show = true
+            this.refs.picker.open()
         },
         //values 用户选中的省市区 是一个数组；ids 用户选中的省市区对应的国家地区编码
         selct(values, ids, data) {
@@ -522,11 +398,21 @@ export default {
 ```html
 <template>
     <div>
-        <input v-model="pickerValue" readonly @click="show =true" placeholder="请选择日期" />
-        <time-picker v-model="show" :defaultValue="defaultValue" :minYear="2000" :maxYear="2050" @on-selected="select"></time-picker>
+        <input 
+            v-model="pickerValue" 
+            readonly
+            @click="$refs.picker.open()" 
+            placeholder="请选择日期" />
+
+        <time-picker 
+            ref="picker" 
+            :defaultValue = "defaultValue" 
+            :minYear="2000" 
+            :maxYear="2050" 
+            @on-selected="select">
+        </time-picker>
     </div>
     <!-- 
-        v-model: 控制显示与隐藏
         minYear：起始年份
         maxYear：截止年份
         on-selected：确定选择执行的回调

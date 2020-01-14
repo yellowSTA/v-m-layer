@@ -50,19 +50,11 @@ const plugins = {
 
         }
 
-        if(!vue.$layer){
-            vue.$layer = {
-                confirm
-            }
-        } else{
-            vue.$layer.confirm = confirm
+        let plugins = vue.prototype.$layer || {};
+        if(!plugins.confirm) {
+            plugins.confirm = confirm;
         }
-
-        vue.mixin({
-            created: function(){
-                this.$layer = vue.$layer;
-            }
-        })
+        vue.prototype.$layer = plugins;
     }
 }
 

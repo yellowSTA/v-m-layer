@@ -12,7 +12,7 @@
                     <div class="picker-content">
                         <div class="mask-top border-1px"></div>
                         <div class="wheel-wrapper">
-                            <div class="wheel" v-for="(wrapper, index) in cols" :key="index" ref="wheel" v-if="index<columns">
+                            <div class="wheel" v-for="(wrapper, index) in cols" :key="index" ref="wheel" v-if="index < columns">
                                 <ul class="wheel-scroll">
                                     <li class="wheel-item" v-for="(item, i) in wrapper" :class="{active:i==selectIndex[index]}" :key="i">{{item.name || item}}</li>
                                 </ul>
@@ -49,10 +49,6 @@ export default {
             type: Number,
             default: 3
         },
-        value: {
-            type: Boolean,
-            default: false
-        },
         minYear: {
             type: Number,
             default: 1990
@@ -74,11 +70,15 @@ export default {
         }
     },
     created() {
-        if(this.value){
-            this.show = true
-        }
+        
     },
     methods: {
+        open() {
+            this.show = true;
+        },
+        close() {
+            this.closePicker()
+        },
         _initData() {
             let defaultValue = this.defaultValue.map((value,index,arr) => {
                 return Number(value)
@@ -224,12 +224,7 @@ export default {
         }
     },
     watch: {
-        show(val) {
-            this.$emit('input', val)
-        },
         value(val) {
-            this.show = val;
-             
             if(val && !this.wheels.length){
                 this._initData();
             }

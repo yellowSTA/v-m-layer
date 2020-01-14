@@ -15,36 +15,31 @@ const plugin = {
             document.body.appendChild($vm.$el)
         }
 
-        const defaults = {}
+        /* const defaults = {}
         for (let i in $vm.$options.props) {
             if (i !== 'value') {
                 defaults[i] = $vm.$options.props[i].default
             }
-        }
+        } */
 
-        const toast = function(text, time){
+        const toast = function(text, time, pos = 'middle'){
             let opt = {
                 text,
-                time: time || 2000
+                time: time || 2000,
+                pos
             }
             mergeOptions($vm, opt)
-            $vm.show = true
-        }
-        
-        if (!vue.$layer) {
-            vue.$layer = {
-              toast
-            }
-        } else {
-            vue.$layer.toast = toast
-        }
+            $vm.show = true;
 
-        vue.mixin({
-            created: function () {
-                this.$layer = vue.$layer
-            }
-        })
-
+            setTimeout(() => {
+                $vm.show = false;
+            }, opt.time);
+        }
+        let plugins = vue.prototype.$layer || {};
+        if(!plugins.toast) {
+            plugins.toast = toast;
+        }
+        vue.prototype.$layer = plugins;
     }
 }
 

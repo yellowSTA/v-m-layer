@@ -29,13 +29,11 @@ const plugins = {
             }
         }
 
-        if(!vue.$layer){
-            vue.$layer = {
-                loading
-            }
-        } else{
-            vue.$layer.loading = loading
+        let plugins = vue.prototype.$layer || {};
+        if(!plugins.loading) {
+            plugins.loading = loading;
         }
+        vue.prototype.$layer = plugins;
     }
 }
 

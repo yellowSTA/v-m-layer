@@ -1,11 +1,11 @@
 <template>
     <div class="text-center">
         <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" placeholder="非联动" />
-        <input type="text" style="margin-top:40px" v-model="pickervalue2" readonly @click="show2 = true" placeholder="单列数据" />
-        <input type="text" style="margin-top:40px" v-model="pickervalue3" readonly @click="show3 = true" placeholder="数据联动" />
-        <picker v-model="show" :data="menu" :defaultValue="defaultValue" @on-selected="select"></picker>
-        <picker v-model="show2" :data="menu2" :defaultValue="defaultValue2" @on-selected="select2" title="选择手机"></picker>
-        <picker v-model="show3" :data="menu3" :isLink="true" :columns="2" :defaultValue="defaultValue3" @on-selected="select3" title="选择地区"></picker>
+        <input type="text" style="margin-top:40px" v-model="pickervalue2" readonly @click="$refs.picker2.open()" placeholder="单列数据" />
+        <input type="text" style="margin-top:40px" v-model="pickervalue3" readonly @click="$refs.picker3.open()" placeholder="数据联动" />
+        <picker ref="picker1" :data="menu" :defaultValue="defaultValue" @on-selected="select"></picker>
+        <picker ref="picker2" :data="menu2" :defaultValue="defaultValue2" @on-selected="select2" title="选择手机"></picker>
+        <picker ref="picker3" :data="menu3" :isLink="true" :columns="2" :defaultValue="defaultValue3" @on-selected="select3" title="选择地区"></picker>
     </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         showpicker() {
-            this.show = true;
+            this.$refs.picker1.open()
         },
         select(values, item) {
             console.log(values,item)

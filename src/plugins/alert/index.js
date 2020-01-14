@@ -1,13 +1,15 @@
 import AlertComponent from '../../components/alert/alert'
-import { mergeOptions } from '../helper'
+import {
+    mergeOptions
+} from '../helper'
 
 let $vm;
 
 const plugin = {
-    install(vue, options) {
-        const Alert = vue.extend(AlertComponent);
+    install(Vue, options) {
+        const Alert = Vue.extend(AlertComponent);
 
-        if(!$vm){
+        if (!$vm) {
             $vm = new Alert({
                 el: document.createElement('div')
             })
@@ -16,27 +18,27 @@ const plugin = {
 
         const alert = function(text, title, onOk) {
 
-            if(typeof title == "function"){
-				onOk = arguments[1];
-				title = '提示';
-            }
-
-            if(typeof title == "undefined"){
+            if (typeof title == "function") {
+                onOk = arguments[1];
                 title = '提示';
             }
-            
+
+            if (typeof title == "undefined") {
+                title = '提示';
+            }
+
             let opt = {
                 text,
                 title,
                 onOk
             }
-            
+
             mergeOptions($vm, opt)
 
             this.watcher && this.watcher();
 
             this.watcher = $vm.$watch('show', (val) => {
-                if(val == false){
+                if (val == false) {
                     opt.onOk && opt.onOk($vm)
                     this.watcher && this.watcher();
                 }
@@ -44,19 +46,11 @@ const plugin = {
             $vm.show = true
         }
 
-        if(!vue.$layer){
-            vue.$layer = {
-                alert
-            }
-        } else{
-            vue.$layer.alert = alert;
+        let plugins = Vue.prototype.$layer || {};
+        if(!plugins.alert) {
+            plugins.alert = alert;
         }
-
-        vue.mixin({
-            created: function () {
-                this.$layer = vue.$layer
-            }
-        })
+        Vue.prototype.$layer = plugins;
     }
 }
 

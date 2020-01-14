@@ -1,9 +1,11 @@
 <template>
     <transition name="modal">
-        <div class="modal m-toast" v-show="show">
-            <div class="modal-mask"></div>
-            <p v-if="text" v-html="text"></p>
-            <p v-else><slot></slot></p>
+        <div class="modal-box" v-show="show" :class="{top: pos == 'top', middle: pos == 'middle', bottom: pos == 'bottom'}">
+            <div class="modal m-toast" >
+                <div class="modal-mask"></div>
+                <p v-if="text" v-html="text"></p>
+                <p v-else><slot></slot></p>
+            </div>
         </div>
     </transition>
 </template>
@@ -15,9 +17,9 @@ export default {
             type: Number,
             default: 2000
         },
-        value: {
-            type: Boolean,
-            default: false
+        pos: {
+            type: String,
+            default: 'middle'
         },
         text: String
     },
@@ -27,38 +29,21 @@ export default {
         }
     },
     created() {
-        if (this.value) {
-            this.show = true
-        }
         
     },
     watch: {
-        show(val){
-            if(val){
-                this.$emit('input', true)
-                setTimeout(() => {
-                    let dom = document.getElementsByClassName("m-toast");
-                    for (let i = 0; i < dom.length; i++) {
-                        let w = dom[i].clientWidth;
-                        dom[i].style.marginLeft = -w/2 + 'px';
-                    }
-                },10)
-                
-                setTimeout(() => {
-                    this.$emit('input', false) 
-                    this.show = false;
-                    
-                },this.time);
-            }
-        },
-        value(val, oldVal) {
-            this.show = val
-        }
+        
     }
 }
 </script>
 
 <style scoped>
+.top {
+    bottom: 50%;
+}
+.bottom {
+    top: 50%;
+}
 .modal-enter{
     opacity: 0;
     transform: scale(1.185);

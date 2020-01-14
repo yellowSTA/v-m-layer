@@ -7,7 +7,7 @@
                 <div class="actions-menu">
                     <div class="actions-cell" v-for="(item, index) in menu" :key="index" @click="onMenuClick(item,index)">{{item.text}}</div>
                 </div>
-                <div class="actions-cancel actions-cell" @click="_onCancel">取消</div>
+                <div class="actions-cancel actions-cell" @click="close">取消</div>
             </div>
         </transition>
     </div>
@@ -17,11 +17,7 @@
 export default {
     props: {
         title: String,
-        menu: Array,
-        value: {
-            type: Boolean,
-            default: false
-        }
+        menu: Array
     },
     data() {
         return {
@@ -29,12 +25,13 @@ export default {
         }
     },
     created() {
-        if(this.value){
-            this.show = true
-        }
+        
     },
     methods: {
-        _onCancel() {
+        open() {
+            this.show = true;
+        },
+        close() {
             this.show = false;
             this.$emit('on-actions-close');
         },
@@ -44,12 +41,7 @@ export default {
         }
     },
     watch: {
-        value(val) {
-            this.show = val;
-        },
-        show(val) {
-            this.$emit('input', val)
-        }
+        
     }
 }
 </script>
