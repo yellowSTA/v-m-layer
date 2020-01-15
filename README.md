@@ -180,7 +180,7 @@ export default{
 </template>
 
 <script>
-import Actions from 'v-m-layer'
+import { actions } from 'v-m-layer'
 export default {
     data() {
         return {
@@ -203,7 +203,7 @@ export default {
         }
     },
     components: {
-        Actions
+        actions
     }
 }
 </script>
@@ -280,7 +280,7 @@ export default {
 </template>
 
 <script>
-import picker from '../components/picker/picker'
+import { picker } from 'v-m-layer'
 export default {
     data() {
         return {
@@ -441,7 +441,7 @@ export default {
 </template>
 
 <script>
-import timePicker from '../components/timePicker/timePicker'
+import { timePicker } from 'v-m-layer'
 export default {
     data() {
         return {
