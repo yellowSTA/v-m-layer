@@ -32,9 +32,9 @@ npm install v-m-layer --save
 ## 使用
 
 ### 1.alert
-> ### this.$layer.alert( title, callback )  
-> ### title: 弹窗内容  
-> ### callback: 可选参数，点击确定回调函数
+> this.$layer.alert( title, callback )  
+> title: 弹窗内容  
+> callback: 可选参数，点击确定回调函数
 
 ``` javascript
 
@@ -54,11 +54,9 @@ export default{
 ```
 
 ### 2.toast
-+ 插件调用
-> ### this.$layer.toast( msg, delay, className )  
-> ### msg：提示信息  
-> ### delay：可选参数，弹框存在时间  
-> ### className：可选参数，设置样式名，改变默认样式
+> this.$layer.toast( msg, delay )  
+> msg：提示信息  
+> delay：可选参数，弹框存在时间  
 
 ``` javascript
 
@@ -69,13 +67,16 @@ Vue.use(ToastPlugins)
 export default{
     methods: {
         showToast2() {
-            this.$layer.toast('我是通过插件调用的',3000, 'black')
+            this.$layer.toast('我是通过插件调用的',3000)
         }
     }
 }
 ```
 
 ### 3.confirm
+> 有两种传参方式  
+> this.$layer.confirm(msg, onConfirm, onCancle)  
+> this.$layer.confirm(msg, title, onConfirm, onCancle)
 
 ``` javascript
 
@@ -106,8 +107,8 @@ export default{
 ```
 
 ### 4.loading
-> ### this.$layer.loading.show()
-> ### this.$layer.loading.hide()
+> this.$layer.loading.show(msg)  打开  
+> this.$layer.loading.hide()  关闭
 
 ``` javascript
 
@@ -131,7 +132,10 @@ export default{
 ```
 
 ### 5.toptip
-+ 插件调用
+> this.$layer.toptip(msg, deley, className)  
+> msg:  弹窗信息  
+> deley:  可选参数，弹窗停留时间  
+> className: 可选参数，通过样式名修改默认样式
 ``` javascript
 
 import Vue from 'vue'
@@ -149,6 +153,11 @@ export default{
 ```
 
 ### 6.actions
+> this.$refs.actions.open()  
+> menu： 菜单  
+> on-actions-menu： 点击菜单的回调  
+> on-actions-close：  监听关闭回调  
+> title： 标题
 ```html
 <template>
     <div>
@@ -201,6 +210,13 @@ export default {
 ```
 
 ### 7.picker
+> this.$refs.picker.open()  
+> data：picker数据  
+> defaultValue：给picker的赋默认值  
+> on-change：picker滚动就执行回调  
+> on-selected：点击确定执行回调  
+> isLink：是否开启联动，如果开启必须指定columns列数，数据格式参照meun3  
+> columns：列数
 ```html
 <template>
     <div>
@@ -328,6 +344,10 @@ export default {
 ```
 
 ### 8.cityPicker
+> this.refs.picker.open()  
+> data：省市区列表；v-m-layer提供了chinaAddress，如果需要使用自己的地址库，请遵循chinaAddress的格式  
+> on-shadow-change: 用户选中执行回调，  
+> 请保持input绑定的值和cityPicker组件的defaultValue的值一致，这样就可以使picker记住用户选中的值
 ```html
 <template>
     <div>
@@ -345,7 +365,7 @@ export default {
         </span>
 
         <cityPicker 
-            ref="picker 
+            ref="picker"
             :data="chinaAddress" 
             :defaultValue="pickervalue" 
             title="请选择地区" 
