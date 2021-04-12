@@ -3,7 +3,8 @@
         <!-- <button @click="openAlert">点击alert</button> -->
         <button @click="openAlert">点击toast</button>
         <!-- <action-sheet ref="actionRef" :menus="actions" action-key="name" @close="actionClose" @select="actionSelect"></action-sheet> -->
-        <picker ref="pickerRef" :columns="columns" @select="select"></picker>
+        <!-- <picker ref="pickerRef" :columns="columns" @select="select"></picker> -->
+        <DatePicker ref="pickerRef" values="2020-05-02" @select="select"></DatePicker>
     </div>
 </template>
 

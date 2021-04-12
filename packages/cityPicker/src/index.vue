@@ -1,4 +1,3 @@
-<!-- 非联动 -->
 <template>
     <div class="container">
         <transition name="picker-fade">
@@ -21,8 +20,7 @@
                                             :key="index"
                                             class="wheel-item"
                                         >
-                                            <template v-if="isLink">{{ item.text }}</template>
-                                            <template v-else>{{ rangeKey ? item[rangeKey] : item }}</template>
+                                            <template>{{ item.name }}</template>
                                         </li>
                                     </ul>
                                 </div>
@@ -48,24 +46,26 @@
     const EVENT_CANCEL = 'cancel'
     const EVENT_CHANGE = 'change'
 
+    const date = new Date()
+
     export default {
-        name: 'Picker',
+        name: 'DatePicker',
         props: {
-            columns: {
-                type: Array,
-                default: () => []
-            },
-            rangeKey: {
-                type: String,
-                default: ''
+            columnsNum: {
+                type: Number,
+                default: 3
             },
             title: {
                 type: String,
                 default: ''
             },
-            indexs: {
+            values: {
+                type: String,
+                default: [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-')
+            },
+            datas: {
                 type: Array,
-                default: () => [0, 0, 0, 0]
+                default: () => []
             }
         },
         data() {
@@ -76,39 +76,18 @@
             }
         },
         created() {
-            
-        },
-        computed: {
-            // 判断是多列还是单列
-            pickerType() {
-                const firstItem = this.columns[0]
-                if (typeof firstItem == 'string' || firstItem.constructor  === Object) {
-                    return 'oneColumn'
-                }
-                return 'moreColumn'
-            },
-            // 是否是联动数据
-            isLink() {
-                return this.columns[0].children
-            }
+            // this._initData()
         },
         methods: {
             open() {
                 if (this.state === STATE_SHOW) {
                     return
                 }
-                if (!this.pickerData.length) {
-                    if (this.isLink) {
-                        this._initLinkData(this.columns, 0, true)
-                    } else {
-                        this.pickerData = this.pickerType === 'oneColumn' ? [this.columns] : this.columns
-                    }
-                }
 
                 this.state = STATE_SHOW
 
                 if (!this.wheels) {
-                    this.selectedIndexPair = this.indexs
+                    this._initData() // 第一次打开初始化数据
                     // waiting for DOM rendered
                     this.$nextTick(() => {
                         this.wheels = []
@@ -145,12 +124,8 @@
                 const selectedItem = this.pickerData.map((data, index) => {
                     return data.find((v, i) => i === currentSelectedIndexPair[index])
                 })
-                let res = this.pickerType == 'oneColumn' ? selectedItem[0] : selectedItem
-                if (this.isLink) {
-                    res = selectedItem.map(item => ({ text: item.text, value: item.value }))
-                }
                 
-                this.$emit(EVENT_SELECT, res, currentSelectedIndexPair)
+                this.$emit(EVENT_SELECT, selectedItem.join('-'), currentSelectedIndexPair)
             },
             _cancel() {
                 /*
@@ -179,17 +154,18 @@
                         const selectIndex = currentWheel.getSelectedIndex()
                         this.$emit(EVENT_CHANGE, i, selectIndex)
                     
-                        // 如果是联动，需要渲染后面联动的数据
-                        if (this.isLink) {
-                            for(let n = i; n < this.wheels.length; n++) {
-                                if ((n + 1) >= this.wheels.length) return;
-                                this._initLinkData(this.pickerData[i][selectIndex].children, n+1)
-                                this.wheels[n + 1].wheelTo(0)
-                                this.$nextTick(() => {
-                                    this.wheels[n + 1].refresh()
-                                })
+                        for(let n = i; n < this.wheels.length; n++) {
+                            if ((n + 1) >= this.wheels.length) return;
+                            if (n == 1 && this.type == 'day') {
+                                this.createDays()
                             }
+
+                            this.wheels[n + 1].wheelTo(0)
+                            this.$nextTick(() => {
+                                this.wheels[n + 1].refresh()
+                            })
                         }
+                        this.selectedIndexPair = this.wheels.map(wheel => wheel.getSelectedIndex())
                     })
                 } else {
                     currentWheel.refresh()
@@ -207,6 +183,51 @@
                 this.$set(this.pickerData, i, data)
                 const d = isFirst ? data[this.selectedIndexPair[i]].children : data[0].children
                 d && this._initLinkData(d , i + 1)
+            },
+            _initData() {
+                let cols = [], year = [], month = [];
+                for (let i = this.start; i <= this.end; i++) {
+                    year.push(i)
+                }
+                cols.push(year)
+                if (this.type == 'month' || this.type == 'day') {
+                    month = this.fillArrayNum(12)
+                    cols.push(month)
+                }
+                
+                if (this.type == 'day') {
+                    const days = this.getDuration(this.values)
+                    cols.push(this.fillArrayNum(days))
+                }
+                this.pickerData = cols
+                this.setDefault()
+            },
+            // 获取当月的天数
+            getDuration (date) {
+                let dt = new Date(date.replace(/-/g, '/')) // ios不能识别带横杠的日期
+                dt.setMonth(dt.getMonth() + 1)   
+                dt.setDate(0);  
+                return dt.getDate()  
+            },
+            // 计算每月的天数
+            createDays() {
+                const { pickerData, selectedIndexPair } = this
+                const date = `${pickerData[0][selectedIndexPair[0]]}-${pickerData[1][selectedIndexPair[1]]}`
+                const days = this.getDuration(date)
+                this.$set(this.pickerData, 2, this.fillArrayNum(days))
+            },
+            // 设置默认
+            setDefault() {
+                const values = this.values.split('-').map(item => Number(item))
+                const indexs = this.pickerData.map((item, i) => item.findIndex(v => v == values[i]))
+                this.selectedIndexPair = indexs
+            },
+            /**
+             * 填充数据
+             * @param {Number} num
+             */
+            fillArrayNum(num) {
+                return Array(num).fill().map((_, i) => i < 9 ? '0' + (i + 1) : i + 1)
             }
         }
     }

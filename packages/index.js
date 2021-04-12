@@ -5,10 +5,12 @@ import Confirm from './confirm/index'
 import Loading from './loading/index'
 import ActionSheet from './actionSheet/index'
 import Picker from './picker/index'
+import DatePicker from './datePicker/index'
 
 const components = [
     ActionSheet,
-    Picker
+    Picker,
+    DatePicker
 ]
 
 const install = function(Vue) {
@@ -42,5 +44,6 @@ export {
     Confirm,
     Loading,
     ActionSheet,
-    Picker
+    Picker,
+    DatePicker
 }
