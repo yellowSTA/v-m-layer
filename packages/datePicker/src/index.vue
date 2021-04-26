@@ -16,8 +16,8 @@
                                 <div class="wheel" v-for="(data, index) in pickerData" :key="index">
                                     <ul class="wheel-scroll">
                                         <li
-                                            v-for="(item, index) in data" 
-                                            :key="index"
+                                            v-for="(item, i) in data" 
+                                            :key="i"
                                             class="wheel-item"
                                         >
                                             <template>{{ item }}</template>
@@ -176,17 +176,6 @@
                 }
 
                 return currentWheel
-            },
-            /**
-             * 初始化列表数据
-             * @param {object} data -列数据
-             * @param {number} i - 索引，第几列
-             * @param {boolean} isFirst -是否是设置默认值
-             */
-            _initLinkData(data, i = 0, isFirst = false) {
-                this.$set(this.pickerData, i, data)
-                const d = isFirst ? data[this.selectedIndexPair[i]].children : data[0].children
-                d && this._initLinkData(d , i + 1)
             },
             _initData() {
                 let cols = [], year = [], month = [];

@@ -13,11 +13,11 @@
                             <div class="mask-top border-bottom-1px"></div>
                             <div class="mask-bottom border-top-1px"></div>
                             <div class="wheel-wrapper" ref="wheelWrapper">
-                                <div class="wheel" v-for="(data, index) in pickerData" :key="index">
+                                <div class="wheel" v-for="(num, index) in columnsNum" :key="index">
                                     <ul class="wheel-scroll">
                                         <li
-                                            v-for="(item, index) in data" 
-                                            :key="index"
+                                            v-for="item in pickerData[num - 1]" 
+                                            :key="item.value"
                                             class="wheel-item"
                                         >
                                             <template>{{ item.name }}</template>
@@ -46,22 +46,26 @@
     const EVENT_CANCEL = 'cancel'
     const EVENT_CHANGE = 'change'
 
-    const date = new Date()
-
     export default {
-        name: 'DatePicker',
+        name: 'CityPicker',
         props: {
             columnsNum: {
                 type: Number,
-                default: 3
+                validator: function(val) {
+                    const res = val >= 1 && val <= 3;
+                    if (!res) {
+                        console.error('"columnsNum" 的值必须大于等于1小于等于3, at CityPicker')
+                    }
+                    return res
+                }
             },
             title: {
                 type: String,
                 default: ''
             },
             values: {
-                type: String,
-                default: [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-')
+                type: Array,
+                default: () => []
             },
             datas: {
                 type: Array,
@@ -72,27 +76,30 @@
             return {
                 state: STATE_HIDE,
                 selectedIndexPair: [0, 0, 0, 0],
-                pickerData: []
+                pickerData: [
+                    [],
+                    [],
+                    []
+                ]
             }
         },
         created() {
-            // this._initData()
+            this._initData()
         },
         methods: {
             open() {
                 if (this.state === STATE_SHOW) {
                     return
                 }
-
+                // console.log(this.datas)
                 this.state = STATE_SHOW
 
                 if (!this.wheels) {
-                    this._initData() // 第一次打开初始化数据
-                    // waiting for DOM rendered
+                    // this._initData() // 第一次打开初始化数据
                     this.$nextTick(() => {
                         this.wheels = []
                         let wheelWrapper = this.$refs.wheelWrapper
-                        for (let i = 0; i < this.pickerData.length; i++) {
+                        for (let i = 0; i < this.columnsNum; i++) {
                             this.wheels.push(this._createWheel(wheelWrapper.children[i], i))
                         }
                     })
@@ -122,10 +129,14 @@
                 })
 
                 const selectedItem = this.pickerData.map((data, index) => {
-                    return data.find((v, i) => i === currentSelectedIndexPair[index])
+                    const item = data.find((v, i) => i === currentSelectedIndexPair[index])
+                    if (item) {
+                        return { name: item.name, value: item.value }
+                    }
+                    return null
                 })
                 
-                this.$emit(EVENT_SELECT, selectedItem.join('-'), currentSelectedIndexPair)
+                this.$emit(EVENT_SELECT, selectedItem.filter(item => !!item), currentSelectedIndexPair)
             },
             _cancel() {
                 /*
@@ -155,17 +166,18 @@
                         this.$emit(EVENT_CHANGE, i, selectIndex)
                     
                         for(let n = i; n < this.wheels.length; n++) {
+                            const next = n + 1;
+                            const nextWheel = this.wheels[next];
                             if ((n + 1) >= this.wheels.length) return;
-                            if (n == 1 && this.type == 'day') {
-                                this.createDays()
-                            }
 
-                            this.wheels[n + 1].wheelTo(0)
+                            nextWheel.wheelTo(0)
+                            this._initLinkData(n, this.wheels[n].getSelectedIndex())
                             this.$nextTick(() => {
-                                this.wheels[n + 1].refresh()
+                                nextWheel.refresh()
                             })
                         }
                         this.selectedIndexPair = this.wheels.map(wheel => wheel.getSelectedIndex())
+                        
                     })
                 } else {
                     currentWheel.refresh()
@@ -175,59 +187,36 @@
             },
             /**
              * 初始化列表数据
-             * @param {object} data -列数据
              * @param {number} i - 索引，第几列
-             * @param {boolean} isFirst -是否是设置默认值
+             * @param {number} selectIndex -当前列表选中的索引
              */
-            _initLinkData(data, i = 0, isFirst = false) {
-                this.$set(this.pickerData, i, data)
-                const d = isFirst ? data[this.selectedIndexPair[i]].children : data[0].children
-                d && this._initLinkData(d , i + 1)
+            _initLinkData(i, selectIndex) {
+                const next = i + 1;
+                const currentItem = this.pickerData[i][selectIndex];
+                this.$set(this.pickerData, next, this.datas.filter(item => item.parent == currentItem.value))
             },
             _initData() {
-                let cols = [], year = [], month = [];
-                for (let i = this.start; i <= this.end; i++) {
-                    year.push(i)
+                const provinces = this.datas.filter(item => !item.parent)
+                const city = this.datas.filter(item => item.parent == (this.values[0] || provinces[0].value))
+                const area = this.datas.filter(item => item.parent == (this.values[1] || city[0].value))
+                // 设置默认选中
+                if (this.values && this.values.length) {
+                    const list = [provinces, city, area]
+                    list.forEach((item, i) => {
+                        const index = item.findIndex(v => v.value == this.values[i])
+                        this.$set(this.selectedIndexPair, i, index === -1 ? 0 : index)
+                    })
                 }
-                cols.push(year)
-                if (this.type == 'month' || this.type == 'day') {
-                    month = this.fillArrayNum(12)
-                    cols.push(month)
-                }
-                
-                if (this.type == 'day') {
-                    const days = this.getDuration(this.values)
-                    cols.push(this.fillArrayNum(days))
-                }
-                this.pickerData = cols
-                this.setDefault()
-            },
-            // 获取当月的天数
-            getDuration (date) {
-                let dt = new Date(date.replace(/-/g, '/')) // ios不能识别带横杠的日期
-                dt.setMonth(dt.getMonth() + 1)   
-                dt.setDate(0);  
-                return dt.getDate()  
-            },
-            // 计算每月的天数
-            createDays() {
-                const { pickerData, selectedIndexPair } = this
-                const date = `${pickerData[0][selectedIndexPair[0]]}-${pickerData[1][selectedIndexPair[1]]}`
-                const days = this.getDuration(date)
-                this.$set(this.pickerData, 2, this.fillArrayNum(days))
+
+                this.$set(this.pickerData, 0, provinces)
+                this.$set(this.pickerData, 1, city)
+                this.$set(this.pickerData, 2, area)
             },
             // 设置默认
             setDefault() {
                 const values = this.values.split('-').map(item => Number(item))
                 const indexs = this.pickerData.map((item, i) => item.findIndex(v => v == values[i]))
                 this.selectedIndexPair = indexs
-            },
-            /**
-             * 填充数据
-             * @param {Number} num
-             */
-            fillArrayNum(num) {
-                return Array(num).fill().map((_, i) => i < 9 ? '0' + (i + 1) : i + 1)
             }
         }
     }

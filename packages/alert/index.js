@@ -1,11 +1,3 @@
-// import Alert from './src/index.vue';
-
-// /* istanbul ignore next */
-// Alert.install = function(Vue) {
-//   Vue.component(Alert.name, Alert);
-// };
-
-// export default Alert;
 import AlertComponent from './src/index.vue'
 import { mergeOptions } from '../../src/utils/index'
 

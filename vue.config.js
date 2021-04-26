@@ -1,15 +1,3 @@
-module.exports = {
-    lintOnSave: false,
-    chainWebpack: config => {
-        config.module
-            .rule('js')
-            .include
-            .add('/packages')
-            .end()
-            .use('babel')
-            .loader('babel-loader')
-            .tap(options => {
-                return options
-            })
-    }
-}
+const devConfig = require('./config/config.dev');
+const buildConfig = require('./config/config.build');
+module.exports = process.env.NODE_ENV === 'production' ? buildConfig : devConfig;

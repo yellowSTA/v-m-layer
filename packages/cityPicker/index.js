@@ -1,8 +1,8 @@
-/*
- * @Author: huangyan
- * @Date: 2021-04-12 17:03:20
- * @LastEditTime: 2021-04-12 17:03:20
- * @LastEditors: huangyan
- * @Description: 
- * @FilePath: \v-m-layer\packages\cityPicker\index.js
- */
+import CityPicker from './src/index.vue';
+
+/* istanbul ignore next */
+CityPicker.install = function(Vue) {
+  Vue.component(CityPicker.name, CityPicker);
+};
+
+export default CityPicker;

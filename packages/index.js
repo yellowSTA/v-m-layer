@@ -6,14 +6,19 @@ import Loading from './loading/index'
 import ActionSheet from './actionSheet/index'
 import Picker from './picker/index'
 import DatePicker from './datePicker/index'
+import CityPicker from './cityPicker/index'
 
 const components = [
     ActionSheet,
     Picker,
-    DatePicker
+    DatePicker,
+    CityPicker
 ]
 
 const install = function(Vue) {
+    // 判断是否安装
+    if (install.installed) return;
+
     const layer = Vue.prototype.$layer;
     if (!layer) {
         Vue.use(Alert)
@@ -29,9 +34,9 @@ const install = function(Vue) {
 }
 
 /* istanbul ignore if */
-// if (typeof window !== 'undefined' && window.Vue) {
-//     install(window.Vue);
-// }
+if (typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+}
 
 export default install
 
@@ -45,5 +50,6 @@ export {
     Loading,
     ActionSheet,
     Picker,
-    DatePicker
+    DatePicker,
+    CityPicker
 }

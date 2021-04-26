@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('../../styles/index.scss');
+@import url('../../../src/assets/css/layer.css');
 .m-toast {
     position: absolute;
     background: rgba(0, 0, 0, 0.6);

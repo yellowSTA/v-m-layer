@@ -4,7 +4,8 @@
         <button @click="openAlert">点击toast</button>
         <!-- <action-sheet ref="actionRef" :menus="actions" action-key="name" @close="actionClose" @select="actionSelect"></action-sheet> -->
         <!-- <picker ref="pickerRef" :columns="columns" @select="select"></picker> -->
-        <DatePicker ref="pickerRef" values="2020-05-02" @select="select"></DatePicker>
+        <!-- <DatePicker ref="pickerRef" values="2020-05-02" @select="select"></DatePicker> -->
+        <CityPicker ref="pickerRef" :datas="columns" :columnsNum="3" :values="['130000', '130400', '130424']" title="选择地址" @select="select"></CityPicker>
     </div>
 </template>
 
@@ -13,6 +14,7 @@ import layer from '../packages'
 import Vue from 'vue'
 Vue.use(layer)
 // Vue.use(Toast)
+import chinaAddress from '@/datas/address.json'
 const DATA = [
     {
       text: '北京市',
@@ -121,7 +123,7 @@ export default {
                 {name:'繁体中文', id:'2'},
                 {name:'English', id:'3'}
             ],
-            columns: DATA
+            columns: chinaAddress
         }
     },
     methods: {
