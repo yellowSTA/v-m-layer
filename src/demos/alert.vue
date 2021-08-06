@@ -1,13 +1,13 @@
 <template>
     <div class="text-center">
-        <div @click="showAlert" style="margin-top:40px">点击显示弹窗</div>
+        <button type="button" @click="showAlert" style="margin-top:40px">点击显示弹窗</button>
     </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { AlertPlugins } from '../plugins'
-Vue.use(AlertPlugins)
+import Alert from '../../packages/alert'
+Vue.use(Alert)
 
 export default{
     data() {
@@ -17,13 +17,9 @@ export default{
     },
     methods: {
         showAlert() {
-            this.$layer.alert('我是通过插件调用的',function(vm){
-                console.log('你点击了确定')
-                console.log(vm);
+            this.$layer.alert('我是通过插件调用的', '提示').then(() => {
+                console.log('点击了确定')
             })
-        },
-        sure() {
-            console.log('你点击了确定')
         }
     }
 }

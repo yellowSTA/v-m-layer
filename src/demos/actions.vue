@@ -1,19 +1,19 @@
 <template>
     <div class="text-center">
-        <div style="margin-top:40px" @click="showactios">点击显示actions</div>
-        <actions ref="actions" title="请选择语言" :menu="menu" @on-actions-menu="itemClick" @on-actions-close="onClose"></actions>
+        <button type="button" style="margin-top:40px" @click="showactios">点击显示actions</button>
+        <actions ref="actions" title="请选择语言" :menus="menu" @select="itemClick" @close="onClose"></actions>
     </div>
 </template>
 
 <script>
-import Actions from '../components/actions/actions'
+import Actions from '../../packages/actionSheet'
 export default {
     data() {
         return {
             menu: [
-                {text:'简体中文',id:'1'},
-                {text:'繁体中文',id:'2'},
-                {text:'English',id:'3'}
+                {name:'简体中文',id:'1'},
+                {name:'繁体中文',id:'2'},
+                {name:'English',id:'3'}
             ]
         }
     },

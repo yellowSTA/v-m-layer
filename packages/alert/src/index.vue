@@ -1,7 +1,7 @@
 <!--
  * @Author: huangyan
  * @Date: 2021-04-06 17:42:04
- * @LastEditTime: 2021-04-26 10:32:19
+ * @LastEditTime: 2021-04-27 11:39:40
  * @LastEditors: huangyan
  * @Description: alert弹窗组件
  * @FilePath: \v-m-layer\packages\alert\src\index.vue
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url('../../../src/assets/css/layer.css');
+@import url('../../../src/styles/index.scss');
 .modal-enter{
     opacity: 0;
     transform: scale(1.185);

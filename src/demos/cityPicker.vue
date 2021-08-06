@@ -1,37 +1,29 @@
 <template>
     <div class="text-center">
         <input type="text" style="margin-top:40px" v-model="pickervalue" readonly @click="showpicker" />
-        <span @click="getText" style="margin-top:40px;display:block">根据id['430000', '430400', '430407']获取文字值</span>
-        <cityPicker ref="picker" :data="chinaAddress" :defaultValue="pickervalue" title="请选择地区" @on-shadow-change="selct"></cityPicker>
+        <cityPicker ref="picker" :datas="chinaAddress" title="请选择地区" @select="selct"></cityPicker>
     </div>
 </template>
 
 <script>
 import chinaAddress from '../datas/address.json'
-import cityPicker from '../components/cityPicker/cityPicker'
-import { getName } from '../plugins'
+import cityPicker from '../../packages/cityPicker'
 
 export default {
     data() {
         return {
             chinaAddress: chinaAddress,
-            pickervalue:'湖北省 武汉市 武昌区',
+            pickervalue: ''
         }
     },
     methods: {
         showpicker() {
             this.$refs.picker.open()
         },
-        selct(values, ids, data) {
+        selct(values) {
             console.log(values)
-            this.pickervalue = values.join(' ');
         },
-        getText(){
-            let ids = ['430000', '430400', '430407'];
-            //将对应的省市区id和全国省市区传入 便可转换成对应的省市区文字
-            let names = getName(ids, this.chinaAddress);
-            console.log(names)
-        }
+        
     },
     components: {
         cityPicker

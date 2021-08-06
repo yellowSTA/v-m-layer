@@ -32,7 +32,10 @@ const buildConfig = {
     //  webpack配置
     configureWebpack: {
         //  入口文件
-        entry: getComponentEntries('packages'),
+        entry: {
+            base: path.resolve(__dirname, "../src/styles/index.scss"),
+            ...getComponentEntries('packages')
+        },
         //  输出配置
         output: {
             //  文件名称
@@ -59,6 +62,7 @@ const buildConfig = {
         config.plugins.delete('html');
         config.plugins.delete('hmr');
         config.entryPoints.delete('app');
+        config.module.rule('scss').use('vue-style-loader').use('css-loader').use('sass-loader')
     }
 };
 module.exports = buildConfig;

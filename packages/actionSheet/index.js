@@ -1,8 +1,8 @@
-import Alert from './src/index.vue';
+import ActionSheet from './src/index.vue';
 
 /* istanbul ignore next */
-Alert.install = function(Vue) {
-  Vue.component(Alert.name, Alert);
+ActionSheet.install = function(Vue) {
+  Vue.component(ActionSheet.name, ActionSheet);
 };
 
-export default Alert;
+export default ActionSheet;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <transition name="overlay"><div class="modal-overlay"  v-if="show"></div></transition>
+        <transition name="overlay"><div class="modal-overlay" v-if="show" @click="close"></div></transition>
         <transition name="actions">
             <div class="m-actionsheet" v-if="show">
                 <div class="actions-title" v-show="title">{{title}}</div>
@@ -60,6 +60,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('../../../src/styles/index.scss');
 .m-actionsheet {
     position: fixed;
     left: 0;
@@ -83,9 +84,9 @@ export default {
 
 .actions-cell {
     position: relative;
-    padding: 10px 0;
+    padding: 15px 0;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     background: #fff;
 }
 
@@ -110,9 +111,8 @@ export default {
 
 .actions-title {
     position: relative;
-    height: 65px;
+    height: 60px;
     padding: 0 20px;
-    line-height: 1.4;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;

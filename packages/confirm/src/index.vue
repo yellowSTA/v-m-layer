@@ -49,7 +49,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import url('../../../src/styles/index.scss');
 .modal-enter{
     opacity: 0;
     transform: scale(1.185);
